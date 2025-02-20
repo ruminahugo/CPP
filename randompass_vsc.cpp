@@ -30,6 +30,6 @@ std::string random(int digits){
 
 int main() {
     std::string data = "VSC@" + date() + "@" + random(6);
-    std::cout << data;
+    std::cout << data << std::endl;
     return 0;
 }
