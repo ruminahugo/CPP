@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy C++ Code</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f4f4f4;
+        }
+        pre {
+            background: #282c34;
+            color: #ffffff;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+            overflow-x: auto;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>C++ Code Example</h2>
+    <pre id="code-block">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout << "Hello, world!";
+    return 0;
+}
+    </pre>
+    <button onclick="copyCode()">Copy Code</button>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById("code-block").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Copied to clipboard!");
+            }).catch(err => {
+                console.error("Failed to copy: ", err);
+            });
+        }
+    </script>
+
+</body>
+</html>
