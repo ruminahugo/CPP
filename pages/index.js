@@ -6,6 +6,7 @@ export default function GetPassPage() {
   const [length, setLength] = useState("");
 
   const fetchData = () => {
+    console.log(length);
     if (!length || length < 5) {
       alert("Vui lòng nhập độ dài hợp lệ!");
       return;
