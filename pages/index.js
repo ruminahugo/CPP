@@ -4,10 +4,15 @@ import styles from "../public/styles/index.module.css";
 export default function GetPassPage() {
   const [datas, setData] = useState(null);
   const [length, setLength] = useState("");
+  const [notifi, setNotifi] = useState("");
 
   const fetchData = () => {
-    if (!length || length < 5) {
-      alert("Vui lòng nhập độ dài hợp lệ!");
+    if (!length) {
+      setNotifi("Vui lòng nhập độ dài chuỗi cuối mật khẩu!");
+      return;
+    }
+    if (length < 5) {
+      setNotifi("Vui lòng nhập số lớn hơn 4!");
       return;
     }
 
@@ -34,19 +39,19 @@ export default function GetPassPage() {
         type="number"
         value={length}
         onChange={(e) => setLength(e.target.value)}
-        placeholder="Nhập độ dài phần cuối mật khẩu"
+        placeholder="Nhập độ dài chuỗi cuối mật khẩu"
         required
       />
       <button onClick={fetchData}>Tạo mật khẩu</button>
+      {notifi && (
+        <div>
+          {notifi}
+        </div>
+      )}
       {datas && (
         <div>
           <p>Mật khẩu: {datas}</p>
           <p>(Đã copy vào clipboard)</p>
-        </div>
-      )}
-      {length < 5 && (
-        <div>
-          Vui lòng nhập giá trị lớn hơn 4!
         </div>
       )}
     </div>
