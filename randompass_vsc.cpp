@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     int length = std::stoi(argv[1]);
-    if (length <= 0) {
+    if (length < 5) {
         std::cerr << "Error: Invalid length" << std::endl;
         return 1;
     }

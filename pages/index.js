@@ -10,12 +10,21 @@ export default function GetPassPage() {
       return;
     }
 
-    fetch(`/api/getPass?length=${length}`) // Gửi length lên server
-      .then(res => res.json())
-      .then(data => {
-        setData(data.result);
-        navigator.clipboard.writeText(data.result); // Copy vào clipboard
-      }).error(res.error);
+    fetch(`/api/getPass?length=${length}`)
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    return res.json();
+  })
+  .then(data => {
+    setData(data.result);
+    navigator.clipboard.writeText(data.result); // Copy vào clipboard
+  })
+  .catch(error => {
+    console.error("Fetch error:", error);
+  });
+
   };
 
   return (
