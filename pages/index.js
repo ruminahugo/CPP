@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "@/public/styles/index.module.css";
 
 export default function GetPassPage() {
   const [datas, setData] = useState(null);
@@ -28,12 +29,12 @@ export default function GetPassPage() {
   };
 
   return (
-    <div>
+    <div className={styles.contain}>
       <input
         type="number"
         value={length}
         onChange={(e) => setLength(e.target.value)}
-        placeholder="Nhập độ dài mật khẩu"
+        placeholder="Nhập độ dài phần cuối mật khẩu"
         required
       />
       <button onClick={fetchData}>Tạo mật khẩu</button>
