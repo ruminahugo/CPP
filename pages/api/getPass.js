@@ -12,7 +12,7 @@ export default function handler(req, res) {
     }
 
     // Đường dẫn tới file C++
-    const cppFile = path.join(process.cwd(), "public/randompass_vsc");
+    const cppFile = path.join(process.cwd(), "randompass_vsc");
 
     // Chạy file C++ với 2 tham số
     exec(`${cppFile} ${length}`, (error, stdout, stderr) => {
