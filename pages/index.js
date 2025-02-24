@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "@/public/styles/index.module.css";
+import styles from "../public/styles/index.module.css";
 
 export default function GetPassPage() {
   const [datas, setData] = useState(null);
