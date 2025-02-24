@@ -5,7 +5,7 @@ export default function GetPassPage() {
   const [length, setLength] = useState("");
 
   const fetchData = () => {
-    if (!length || length <= 0) {
+    if (!length || length < 5) {
       alert("Vui lòng nhập độ dài hợp lệ!");
       return;
     }
@@ -43,7 +43,7 @@ export default function GetPassPage() {
           <p>(Đã copy vào clipboard)</p>
         </div>
       )}
-      {length < 4 && (
+      {length < 5 && (
         <div>
           Vui lòng nhập giá trị lớn hơn 4!
         </div>
