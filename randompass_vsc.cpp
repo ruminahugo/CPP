@@ -3,6 +3,7 @@
 #include <ctime>
 #include <sstream>
 #include <iomanip>
+#include <cstdlib>
 
 std::string date(){
     std::time_t t = std::time(nullptr);
@@ -28,8 +29,17 @@ std::string random(int digits){
     return random_str;
 }
 
-int main() {
-    std::string data = "VSC@" + date() + "@" + random(6);
+int main(int argc, char* argv[]) {
+    if (argc < 2){
+        std::cerr << "Error: Missing length parameter" << std::endl;
+        return 1;
+    }
+    int length = std::stoi(argv[1]);
+    if (length <= 0) {
+        std::cerr << "Error: Invalid length" << std::endl;
+        return 1;
+    }
+    std::string data = "VSC@" + date() + "@" + random(length);
     std::cout << data << std::endl;
     return 0;
 }
