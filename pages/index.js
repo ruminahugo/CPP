@@ -43,6 +43,11 @@ export default function GetPassPage() {
           <p>(Đã copy vào clipboard)</p>
         </div>
       )}
+      {length < 4 && (
+        <div>
+          Vui lòng nhập giá trị lớn hơn 4!
+        </div>
+      )}
     </div>
   );
 }
