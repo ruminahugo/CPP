@@ -1,7 +1,13 @@
 import { useEffect } from "react";
-useEffect(() => {
+
+export default function GetPassPage() {
+  useEffect(() => {
     fetch('/api/getPass')
       .then(res => res.json())
       .then(data => console.log(data));
   }, []);
+
+  return <div>Check console for API response.</div>;
+}
+
   
