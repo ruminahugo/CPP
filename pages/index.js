@@ -24,6 +24,7 @@ export default function GetPassPage() {
     return res.json();
   })
   .then(data => {
+    setNotifi("");
     setData(data.result);
     navigator.clipboard.writeText(data.result); // Copy vào clipboard
   })
