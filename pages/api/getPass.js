@@ -7,7 +7,7 @@ export default function handler(req, res) {
     }
 
     const { length } = req.query;
-    if (!a || !b) {
+    if (!length || length < 5) {
         return res.status(400).json({ error: "Missing parameters" });
     }
 
