@@ -1,13 +1,26 @@
-import { useEffect } from "react";
+import { useState } from "react";
 
 export default function GetPassPage() {
-  useEffect(() => {
+  const [datas, setData] = useState(null);
+
+  const fetchData = () => {
     fetch('/api/getPass')
       .then(res => res.json())
-      .then(data => console.log(data));
-  }, []);
+      .then(data => {
+        setData(data.result);
+        navigator.clipboard.writeText(data.result); // Copy vào clipboard
+      });
+  };
 
-  return <div>Check console for API response.</div>;
+  return (
+    <div>
+      <button onClick={fetchData}>Tạo mật khẩu</button>
+      {datas && (
+        <div>
+          <p>Mật khẩu: {datas}</p>
+          <p>(Đã copy vào clipboard)</p>
+        </div>
+      )}
+    </div>
+  );
 }
-
-  
