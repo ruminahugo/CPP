@@ -1,5 +1,7 @@
 .contain{
     text-align: center;
-    margin-top: 8rem;
+    margin-top: 8rem;    
+}
+.notification{
     color: red;
 }

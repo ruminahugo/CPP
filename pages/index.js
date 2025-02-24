@@ -44,7 +44,7 @@ export default function GetPassPage() {
       />
       <button onClick={fetchData}>Tạo mật khẩu</button>
       {notifi && (
-        <div>
+        <div className={styles.notification}>
           {notifi}
         </div>
       )}
