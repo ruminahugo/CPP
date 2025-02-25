@@ -6,26 +6,11 @@ import CryptoJS from "crypto-js";
 export default function GetPassPage() {
   const SECRET_KEY = /*process.env.AES_SECRET_KEY ||*/ "1234567890abcdef1234567890abcdef"; // 32 bytes
   const IV = /*process.env.AES_IV ||*/ "abcdef1234567890"; // 16 bytes
-  function decryptAES(encryptedText) {
-    if (!encryptedText || typeof encryptedText !== "string") {
-        throw new Error("Invalid encrypted text");
-    }
-    const key = CryptoJS.enc.Hex.parse(SECRET_KEY);
-    const iv = CryptoJS.enc.Hex.parse(IV);
-    try {
-        const bytes = CryptoJS.AES.decrypt(encryptedText, key, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            padding: CryptoJS.pad.Pkcs7,
-        });
-
-        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
-        if (!decryptedText) throw new Error("Invalid key or corrupted data");
-        return decryptedText;
-    } catch (error) {
-        console.error("Decryption error:", error);
-        return null;
-    }
+  function decrypt(encryptedText) {
+    const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
+    let decrypted = decipher.update(encryptedText, "hex", "utf8");
+    decrypted += decipher.final("utf8");
+    return decrypted;
   }
 
 
@@ -59,7 +44,7 @@ export default function GetPassPage() {
   })
   .then(data => {
     setNotifi("");
-    const decryptedpwd = decryptAES(data.result);
+    const decryptedpwd = decrypt(data.result);
     console.log(decryptedpwd);
     setPwd(decryptedpwd);
   })

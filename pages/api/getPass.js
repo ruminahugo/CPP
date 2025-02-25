@@ -24,13 +24,6 @@ export default function handler(req, res) {
         return encrypted;
     }
 
-    function decrypt(encryptedText) {
-        const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
-        let decrypted = decipher.update(encryptedText, "hex", "utf8");
-        decrypted += decipher.final("utf8");
-        return decrypted;
-    }
-
     const cppFile = path.join(process.cwd(), "randompass_vsc");
 
     if (!fs.existsSync(cppFile)) {
