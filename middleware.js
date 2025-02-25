@@ -13,6 +13,11 @@ export function middleware(req) {
         return NextResponse.redirect(`https://${req.nextUrl.host}${req.nextUrl.pathname}`, 301);
     }
 
+    const host = req.headers.get("host");
+    if (host && host.startsWith("www.")) {
+        return NextResponse.redirect(`https://${host.replace("www.", "")}${req.nextUrl.pathname}`, 301);
+    }
+
     return NextResponse.next();
 }
 
