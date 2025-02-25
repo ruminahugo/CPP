@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styles from "../public/styles/index.module.css";
 import CryptoJS from "crypto-js";
-require("dotenv").config();
+//require("dotenv").config();
 
 export default function GetPassPage() {
-  const SECRET_KEY = process.env.AES_SECRET_KEY || "1234567890abcdef1234567890abcdef"; // 32 bytes
-  const IV = process.env.AES_IV || "abcdef1234567890"; // 16 bytes
+  const SECRET_KEY = /*process.env.AES_SECRET_KEY ||*/ "1234567890abcdef1234567890abcdef"; // 32 bytes
+  const IV = /*process.env.AES_IV ||*/ "abcdef1234567890"; // 16 bytes
   function decryptAES(encryptedText) {
     const bytes = CryptoJS.AES.decrypt(encryptedText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
         iv: CryptoJS.enc.Utf8.parse(IV),
