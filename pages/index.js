@@ -4,9 +4,6 @@ import CryptoJS from "crypto-js";
 require("dotenv").config();
 
 export default function GetPassPage() {
-  console.log("AES_SECRET_KEY:", process.env.AES_SECRET_KEY);
-
-
   const SECRET_KEY = process.env.AES_SECRET_KEY || "1234567890abcdef1234567890abcdef"; // 32 bytes
   const IV = process.env.AES_IV || "abcdef1234567890"; // 16 bytes
   function decryptAES(encryptedText) {
