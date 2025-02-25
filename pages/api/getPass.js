@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import path from "path";
 import fs from "fs";
 const crypto = require("crypto");
-import "dotenv/config";
+require("dotenv").config();
 
 export default function handler(req, res) {
     if (req.method !== "GET") {
