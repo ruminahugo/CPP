@@ -1,8 +1,8 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const allowedIps = ['203.171.27.84']; // Danh sách IP được phép
 
-export function middleware(req: NextRequest) {
+export function middleware(req, res) {
     const clientIp = req.ip || req.headers.get("x-forwarded-for") || req.headers.get("cf-connecting-ip");
 
     if (!clientIp || !allowedIps.includes(clientIp)) {
