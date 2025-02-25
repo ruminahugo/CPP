@@ -17,8 +17,6 @@ export default function handler(req, res) {
     const SECRET_KEY = process.env.AES_SECRET_KEY; // 32 bytes
     const IV = process.env.AES_IV; // 16 bytes
 
-    console.log(IV);
-
     function encrypt(text) {
         const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
         let encrypted = cipher.update(text, "utf8", "hex");
