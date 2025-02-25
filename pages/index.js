@@ -1,10 +1,32 @@
 import { useState } from "react";
 import styles from "../public/styles/index.module.css";
+import CryptoJS from "crypto-js";
+require("dotenv").config();
 
 export default function GetPassPage() {
-  const [datas, setData] = useState(null);
+
+  const SECRET_KEY = process.env.AES_SECRET_KEY || "1234567890abcdef1234567890abcdef"; // 32 bytes
+  const IV = process.env.AES_IV || "abcdef1234567890"; // 16 bytes
+  function decryptAES(encryptedText) {
+    const bytes = CryptoJS.AES.decrypt(encryptedText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
+        iv: CryptoJS.enc.Utf8.parse(IV),
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7,
+    });
+
+    return bytes.toString(CryptoJS.enc.Utf8);
+  }
+
+  const [pwd, setPwd] = useState(null);
   const [length, setLength] = useState("");
   const [notifi, setNotifi] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(pwd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Ẩn thông báo sau 2 giây
+  };
 
   const fetchData = () => {
     if (!length) {
@@ -25,8 +47,8 @@ export default function GetPassPage() {
   })
   .then(data => {
     setNotifi("");
-    setData(data.result);
-    navigator.clipboard.writeText(data.result); // Copy vào clipboard
+    const decryptedpwd = decryptAES(data.result);
+    setPwd(decryptedpwd);
   })
   .catch(error => {
     console.error("Fetch error:", error);
@@ -49,10 +71,11 @@ export default function GetPassPage() {
           {notifi}
         </div>
       )}
-      {datas && (
+      {pwd && (
         <div>
-          <p>Mật khẩu: {datas}</p>
-          <p>(Đã copy vào clipboard)</p>
+          <p>Mật khẩu: {pwd}<button onClick={handleCopy}>Copy</button>
+          </p>
+          {copied && <p>(Đã copy vào clipboard)</p>}
         </div>
       )}
     </div>
