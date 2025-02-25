@@ -7,14 +7,27 @@ export default function GetPassPage() {
   const SECRET_KEY = /*process.env.AES_SECRET_KEY ||*/ "1234567890abcdef1234567890abcdef"; // 32 bytes
   const IV = /*process.env.AES_IV ||*/ "abcdef1234567890"; // 16 bytes
   function decryptAES(encryptedText) {
-    const bytes = CryptoJS.AES.decrypt(encryptedText, CryptoJS.enc.Utf8.parse(SECRET_KEY), {
-        iv: CryptoJS.enc.Utf8.parse(IV),
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7,
-    });
+    if (!encryptedText || typeof encryptedText !== "string") {
+        throw new Error("Invalid encrypted text");
+    }
+    const key = CryptoJS.enc.Hex.parse(SECRET_KEY);
+    const iv = CryptoJS.enc.Hex.parse(IV);
+    try {
+        const bytes = CryptoJS.AES.decrypt(encryptedText, key, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+        });
 
-    return bytes.toString(CryptoJS.enc.Utf8);
+        const decryptedText = bytes.toString(CryptoJS.enc.Utf8);
+        if (!decryptedText) throw new Error("Invalid key or corrupted data");
+        return decryptedText;
+    } catch (error) {
+        console.error("Decryption error:", error);
+        return null;
+    }
   }
+
 
   const [pwd, setPwd] = useState(null);
   const [length, setLength] = useState("");
