@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../public/styles/index.module.css";
-import CryptoJS from "crypto-js";
+const crypto = require("crypto");
 //require("dotenv").config();
 
 export default function GetPassPage() {
