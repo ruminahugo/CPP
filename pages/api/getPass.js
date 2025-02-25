@@ -14,8 +14,8 @@ export default function handler(req, res) {
         return res.status(400).json({ error: "Missing or invalid parameters" });
     }
 
-    const SECRET_KEY = process.env.AES_SECRET_KEY || "1234567890abcdef1234567890abcdef"; // 32 bytes
-    const IV = process.env.AES_IV || "abcdef1234567890"; // 16 bytes
+    const SECRET_KEY = process.env.AES_SECRET_KEY; // 32 bytes
+    const IV = process.env.AES_IV; // 16 bytes
 
     console.log(IV);
 
