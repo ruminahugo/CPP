@@ -46,6 +46,7 @@ export default function GetPassPage() {
   })
   .then(data => {
     setNotifi("");
+    console.log(data.result);
     const decryptedpwd = decryptAES(data.result);
     setPwd(decryptedpwd);
   })

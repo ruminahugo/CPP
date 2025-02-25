@@ -41,6 +41,6 @@ export default function handler(req, res) {
         if (error) {
             return res.status(500).json({ error: error.message || stderr || "Execution error" });
         }
-        return res.status(200).json({ result: Buffer.from(encrypt(stdout.trim()), 'utf8').toString('base64') });
+        return res.status(200).json({ result: encrypt(stdout.trim()) });
     });
 }
