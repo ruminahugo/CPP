@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../public/styles/index.module.css";
+import RuleBuilder from "../component/rule";
 const crypto = require("crypto");
 require("dotenv").config();
 
@@ -55,6 +56,7 @@ export default function GetPassPage() {
 
   return (
     <div className={styles.contain}>
+      <RuleBuilder />
       <input
         type="number"
         value={length}
