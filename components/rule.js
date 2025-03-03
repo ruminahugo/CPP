@@ -1,24 +1,30 @@
+"use client";
 import { useState } from "react";
-import { Button } from "./components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./components/ui/select";
-import { Input } from "./components/ui/input";
 
 const RuleBuilder = () => {
   const [rules, setRules] = useState([{ id: Date.now(), type: "", value: "" }]);
   const [errors, setErrors] = useState({});
 
+  const ruleTypes = {
+    default: "Chuỗi mặc định",
+    number: "Số",
+    uppercase: "Chữ hoa",
+    lowercase: "Chữ thường",
+    special: "Ký tự đặc biệt",
+  };
+
   const addRule = () => {
-    if (isFormValid()) {
-      setRules([...rules, { id: Date.now(), type: "", value: "" }]);
-    }
+    setRules([...rules, { id: Date.now(), type: "", value: "" }]);
   };
 
   const updateRule = (id, field, value) => {
-    setRules(prevRules => prevRules.map(rule => rule.id === id ? { ...rule, [field]: value } : rule));
+    setRules(prevRules =>
+      prevRules.map(rule => (rule.id === id ? { ...rule, [field]: value } : rule))
+    );
     validateRule(id, field, value);
   };
 
-  const removeRule = (id) => {
+  const removeRule = id => {
     setRules(prevRules => prevRules.filter(rule => rule.id !== id));
     setErrors(prevErrors => {
       const newErrors = { ...prevErrors };
@@ -31,13 +37,12 @@ const RuleBuilder = () => {
     let error = "";
     const rule = rules.find(r => r.id === id);
     if (field === "value" && rule) {
-      if (rule.type && rule.type !== "default") {
-        if (!/^[0-9]+$/.test(value)) {
-          error = "Giá trị phải là số ký tự";
-        }
-      } else if (rule.type === "default" && !value.trim()) {
-        error = "Chuỗi mặc định không được để trống";
-      }
+      if (rule.type === "number" && !/^\d+$/.test(value)) error = "Phải là số";
+      if (rule.type === "uppercase" && !/^[A-Z]+$/.test(value)) error = "Chỉ nhập chữ hoa";
+      if (rule.type === "lowercase" && !/^[a-z]+$/.test(value)) error = "Chỉ nhập chữ thường";
+      if (rule.type === "special" && !/^[!@#$%^&*()_+={}[\]:;'"<>,.?/~`-]+$/.test(value))
+        error = "Chỉ nhập ký tự đặc biệt";
+      if (rule.type === "default" && !value.trim()) error = "Không được để trống";
     }
     setErrors(prevErrors => ({ ...prevErrors, [id]: error }));
   };
@@ -54,36 +59,54 @@ const RuleBuilder = () => {
   };
 
   return (
-    <div className="p-4 border rounded-lg">
+    <div className="p-4 border rounded-lg bg-white shadow">
       {rules.map(rule => (
         <div key={rule.id} className="flex flex-col gap-1 mb-2">
           <div className="flex items-center gap-2">
-            <Select onValueChange={(value) => updateRule(rule.id, "type", value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="default">Chuỗi mặc định</SelectItem>
-                <SelectItem value="number">Số</SelectItem>
-                <SelectItem value="uppercase">Chữ hoa</SelectItem>
-                <SelectItem value="lowercase">Chữ thường</SelectItem>
-                <SelectItem value="special">Ký tự đặc biệt</SelectItem>
-              </SelectContent>
-            </Select>
-            <Input 
-              placeholder="Value" 
+            <select
+              className="border px-3 py-1 rounded"
+              onChange={e => updateRule(rule.id, "type", e.target.value)}
+              value={rule.type}
+            >
+              <option value="">Chọn loại</option>
+              {Object.entries(ruleTypes).map(([key, label]) => (
+                <option key={key} value={key}>
+                  {label}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              className={`border px-3 py-1 rounded ${errors[rule.id] ? "border-red-500" : ""}`}
+              placeholder="Giá trị"
               value={rule.value}
-              onChange={(e) => updateRule(rule.id, "value", e.target.value)}
-              className={errors[rule.id] ? "border-red-500" : ""}
-              disabled={!rule.type} 
+              onChange={e => updateRule(rule.id, "value", e.target.value)}
+              disabled={!rule.type}
             />
-            <Button onClick={() => removeRule(rule.id)} variant="destructive">Xóa</Button>
+            <button
+              className="px-2 py-1 bg-red-500 text-white rounded"
+              onClick={() => removeRule(rule.id)}
+            >
+              Xóa
+            </button>
           </div>
           {errors[rule.id] && <span className="text-red-500 text-sm">{errors[rule.id]}</span>}
         </div>
       ))}
-      <Button onClick={addRule} variant="outline">+ Thêm Rule</Button>
-      <Button onClick={handleSubmit} variant="primary" className="mt-4" disabled={!isFormValid()}>Gửi</Button>
+      <button
+        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+        onClick={addRule}
+        disabled={!isFormValid()}
+      >
+        + Thêm Rule
+      </button>
+      <button
+        className="mt-4 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
+        onClick={handleSubmit}
+        disabled={!isFormValid()}
+      >
+        Gửi
+      </button>
     </div>
   );
 };
