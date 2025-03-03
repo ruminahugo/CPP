@@ -37,11 +37,10 @@ const RuleBuilder = () => {
     let error = "";
     const rule = rules.find(r => r.id === id);
     if (field === "value" && rule) {
-      if (rule.type === "number" && !/^\d+$/.test(value)) error = "Phải là số";
-      if (rule.type === "uppercase" && !/^[A-Z]+$/.test(value)) error = "Chỉ nhập chữ hoa";
-      if (rule.type === "lowercase" && !/^[a-z]+$/.test(value)) error = "Chỉ nhập chữ thường";
-      if (rule.type === "special" && !/^[!@#$%^&*()_+={}[\]:;'"<>,.?/~`-]+$/.test(value))
-        error = "Chỉ nhập ký tự đặc biệt";
+      if (rule.type === "number" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "uppercase" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "lowercase" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "special" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "default" && !value.trim()) error = "Không được để trống";
     }
     setErrors(prevErrors => ({ ...prevErrors, [id]: error }));
