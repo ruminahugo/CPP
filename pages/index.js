@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "../public/styles/index.module.css";
-import RuleBuilder from "../component/rule";
+import RuleBuilder from "../components/rule";
 const crypto = require("crypto");
 require("dotenv").config();
 
