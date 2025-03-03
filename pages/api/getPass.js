@@ -9,7 +9,7 @@ export default function handler(req, res) {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
-    return req.body;
+    return res.status(200).json(req.body);
     const length = parseInt(req.query.length, 10) || 10;
     if (isNaN(length) || length < 5) {
         return res.status(400).json({ error: "Missing or invalid parameters" });
