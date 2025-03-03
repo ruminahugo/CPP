@@ -51,10 +51,15 @@ const RuleBuilder = () => {
     return rules.length > 0 && rules.every(rule => rule.type && rule.value && !errors[rule.id]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isFormValid()) {
-      alert(`Rules submitted: ${JSON.stringify(rules, null, 2)}`);
-      console.log("Rules submitted:", rules);
+      const response = await fetch("/api/getPass", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ rules }),
+      });
+      const data = await response.json();
+      console.log("Kết quả:", data);
     }
   };
 

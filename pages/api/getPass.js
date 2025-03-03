@@ -5,10 +5,11 @@ const crypto = require("crypto");
 require("dotenv").config();
 
 export default function handler(req, res) {
-    if (req.method !== "GET") {
+    if (req.method !== "POST") {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
+    console.log(req.body);
     const length = parseInt(req.query.length, 10) || 10;
     if (isNaN(length) || length < 5) {
         return res.status(400).json({ error: "Missing or invalid parameters" });
