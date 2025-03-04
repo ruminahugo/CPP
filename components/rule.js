@@ -108,7 +108,7 @@ const RuleBuilder = () => {
               value={rule.value}
               onChange={e => updateRule(rule.id, "value", e.target.value)}
               disabled={!rule.type}
-              hidden={rule.type === "datetimenow"}
+              hidden={rule.type === "datenow"}
             />
             <button
               className="px-2 py-1 bg-red-500 text-white rounded"
