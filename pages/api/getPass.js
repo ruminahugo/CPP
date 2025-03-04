@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 import path from "path";
-import fs from "fs";
+import fs, { lutimes } from "fs";
 const crypto = require("crypto");
 require("dotenv").config();
 
@@ -14,18 +14,8 @@ function encrypt(text) {
     return encrypted;
 }
 
-export default function handler(req, res) {
-    if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method Not Allowed" });
-    }
-
-    const rules = req.body;
-    return res.json(rules);
-    rules.forEach((item, index)=>{
-        const length = parseInt(req.query.length, 10) || 10;
-    });
-    
-    if (isNaN(length) || length < 5) {
+function execute(type, length){
+    if (isNaN(length)) {
         return res.status(400).json({ error: "Missing or invalid parameters" });
     }
 
@@ -34,11 +24,39 @@ export default function handler(req, res) {
     if (!fs.existsSync(cppFile)) {
         return res.status(500).json({ error: "Executable file not found" });
     }
-
-    exec(`${cppFile} ${length}`, (error, stdout, stderr) => {
+    exec(`${cppFile} ${type} ${length}`, (error, stdout, stderr) => {
         if (error) {
             return res.status(500).json({ error: error.message || stderr || "Execution error" });
         }
-        return res.status(200).json({ result: encrypt(stdout.trim()) });
+        return stdout.trim();
     });
+
+}
+export default function handler(req, res) {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method Not Allowed" });
+    }
+    
+    
+    var result = null;
+    const rules = req.body;
+    //return res.json(rules);
+    rules.forEach((item, index)=>{
+        if (item.type === "default")
+            result += item.value;
+        else{
+            let type = item.type;
+            let length = parseInt(item.value, 10) || 10;
+            if (type === "number")
+                result += execute(2, length);
+            if (type === "character")
+                result += execute(3, length);
+            if (type === "alphanumeric")
+                result += execute(4, length);
+            if (type === "datetimenow")
+                result += execute(5, length);
+        }
+    });
+    return res.status(200).json({ result: encrypt(result) });
+    
 }

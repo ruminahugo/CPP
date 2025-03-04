@@ -8,8 +8,8 @@ const RuleBuilder = () => {
   const ruleTypes = {
     default: "Chuỗi mặc định",
     number: "Số",
-    character: "Chữ cái",
-    character_number: "Chữ và số",
+    letters: "Chữ cái",
+    alphanumeric: "Chữ và số",
     //special: "Ký tự đặc biệt",
     datetimenow: "Ngày hiện tại",
   };
@@ -39,8 +39,8 @@ const RuleBuilder = () => {
     const rule = rules.find(r => r.id === id);
     if (field === "value" && rule) {
       if (rule.type === "number" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "character" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "character_number" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "letters" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "alphanumeric" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       //if (rule.type === "special" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "datetimenow" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "default" && !value.trim()) error = "Không được để trống";
