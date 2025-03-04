@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const crypto = require("crypto");
 require("dotenv").config();
 
@@ -43,20 +43,15 @@ const RuleBuilder = () => {
         rule.id === id ? { ...rule, [field]: value } : rule
       );
   
-      // Lấy giá trị rule vừa cập nhật từ danh sách mới
-      const updatedRule = updatedRules.find(r => r.id === id);
-  
-      // Kiểm tra lại `value` nếu `type` thay đổi
-      validateRule(id, field, value);
-      if (field === "type" && updatedRule) {
-        validateRule(id, "value", updatedRule.value);
-      }
-  
       return updatedRules;
     });
   };
   
-  
+  useEffect(() => {
+    rules.forEach(rule => {
+      validateRule(rule.id, "value", rule.value);
+    });
+  }, [rules]); // Chạy lại khi `rules` thay đổi
 
   const removeRule = id => {
     setRules(prevRules => prevRules.filter(rule => rule.id !== id));
