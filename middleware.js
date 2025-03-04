@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+/*import { NextResponse } from 'next/server';
 
 const allowedIps = ['203.171.27.84']; // Danh sách IP được phép
 
@@ -19,4 +19,4 @@ export function middleware(req) {
 // Áp dụng middleware cho tất cả routes
 export const config = {
     matcher: '/:path*',
-};
+};*/
