@@ -38,17 +38,24 @@ const RuleBuilder = () => {
   };
 
   const updateRule = (id, field, value) => {
-    setRules(prevRules =>
-      prevRules.map(rule => (rule.id === id ? { ...rule, [field]: value } : rule))
-    );
+    setRules(prevRules => {
+      const updatedRules = prevRules.map(rule =>
+        rule.id === id ? { ...rule, [field]: value } : rule
+      );
   
-    // Nếu thay đổi `type`, cần kiểm tra lại `value`
-    const rule = rules.find(r => r.id === id);
-    validateRule(id, field, value);
-    if (field === "type" && rule) {
-      validateRule(id, "value", rule.value);
-    }
+      // Lấy giá trị rule vừa cập nhật từ danh sách mới
+      const updatedRule = updatedRules.find(r => r.id === id);
+  
+      // Kiểm tra lại `value` nếu `type` thay đổi
+      validateRule(id, field, value);
+      if (field === "type" && updatedRule) {
+        validateRule(id, "value", updatedRule.value);
+      }
+  
+      return updatedRules;
+    });
   };
+  
   
 
   const removeRule = id => {
