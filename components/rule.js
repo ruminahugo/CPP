@@ -68,7 +68,7 @@ const RuleBuilder = () => {
   };
 
   const isFormValid = () => {
-    return rules.length > 0 && rules.every(rule => rule.type && rule.value && !errors[rule.id]);
+    return rules.length > 0 && rules.every(rule => rule.type && rule.value && !errors[rule.id] || rule.type === "datetimenow");
   };
 
   const handleSubmit = async () => {
