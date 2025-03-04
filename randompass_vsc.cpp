@@ -66,10 +66,10 @@ int main(int argc, char* argv[]) {
     }    
     int type = std::stoi(argv[1]);
     int length = std::stoi(argv[2]);
-    if (length < 5) {
+    /*if (length < 5) {
         std::cerr << "Error: Invalid length" << std::endl;
         return 1;
-    }
+    }*/
 
     std::string data = random(type, length);
     std::cout << data << std::endl;
