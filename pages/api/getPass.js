@@ -47,16 +47,15 @@ export default async function handler(req, res) {
         for (const item of rules) {
             if (item.type === "default") {
                 result += item.value;
+            }else if( item.type === "datenow"){
+                result += await execute(5, length);
             } else {
                 let type = item.type;
                 let length = parseInt(item?.value, 10) || 10;
-
                 let passPart = "";
                 if (type === "number") passPart = await execute(2, length);
                 if (type === "letters") passPart = await execute(3, length);
                 if (type === "alphanumeric") passPart = await execute(4, length);
-                if (type === "datetimenow") passPart = await execute(5, length);
-
                 result += passPart;
             }
         }

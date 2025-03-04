@@ -30,7 +30,7 @@ const RuleBuilder = () => {
     letters: "Chữ cái",
     alphanumeric: "Chữ và số",
     //special: "Ký tự đặc biệt",
-    datetimenow: "Ngày hiện tại",
+    datenow: "Ngày hiện tại",
   };
 
   const addRule = () => {
@@ -61,7 +61,7 @@ const RuleBuilder = () => {
       if (rule.type === "letters" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "alphanumeric" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       //if (rule.type === "special" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "datetimenow" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "datenow" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "default" && !value.trim()) error = "Không được để trống";
     }
     setErrors(prevErrors => ({ ...prevErrors, [id]: error }));
