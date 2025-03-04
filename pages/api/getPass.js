@@ -14,49 +14,56 @@ function encrypt(text) {
     return encrypted;
 }
 
-function execute(type, length){
-    if (isNaN(length)) {
-        return res.status(400).json({ error: "Missing or invalid parameters" });
-    }
-
-    const cppFile = path.join(process.cwd(), "randompass_vsc");
-
-    if (!fs.existsSync(cppFile)) {
-        return res.status(500).json({ error: "Executable file not found" });
-    }
-    exec(`${cppFile} ${type} ${length}`, (error, stdout, stderr) => {
-        if (error) {
-            return res.status(500).json({ error: error.message || stderr || "Execution error" });
+function execute(type, length) {
+    return new Promise((resolve, reject) => {
+        if (isNaN(length)) {
+            return reject("Missing or invalid parameters");
         }
-        return stdout.trim();
+        const cppFile = path.join(process.cwd(), "randompass_vsc");
+        if (!fs.existsSync(cppFile)) {
+            return reject("Executable file not found");
+        }
+        exec(`${cppFile} ${type} ${length}`, (error, stdout, stderr) => {
+            if (error) {
+                return reject(error.message || stderr || "Execution error");
+            }
+            resolve(stdout.trim());
+        });
     });
-
 }
-export default function handler(req, res) {
+
+export default async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
-    
-    
-    var result = null;
-    const rules = req.body;
-    //return res.json(rules);
-    rules.forEach((item, index)=>{
-        if (item.type === "default")
-            result += item.value;
-        else{
-            let type = item.type;
-            let length = parseInt(item.value, 10) || 10;
-            if (type === "number")
-                result += execute(2, length);
-            if (type === "character")
-                result += execute(3, length);
-            if (type === "alphanumeric")
-                result += execute(4, length);
-            if (type === "datetimenow")
-                result += execute(5, length);
+
+    try {
+        const rules = req.body.rules; // Fix lấy `rules`
+        if (!Array.isArray(rules)) {
+            return res.status(400).json({ error: "Invalid request format" });
         }
-    });
-    return res.status(200).json({ result: encrypt(result) });
-    
+
+        let result = "";
+        for (const item of rules) {
+            if (item.type === "default") {
+                result += item.value;
+            } else {
+                let type = item.type;
+                let length = parseInt(item.value, 10) || 10;
+
+                let passPart = "";
+                if (type === "number") passPart = await execute(2, length);
+                if (type === "character") passPart = await execute(3, length);
+                if (type === "alphanumeric") passPart = await execute(4, length);
+                if (type === "datetimenow") passPart = await execute(5, length);
+
+                result += passPart;
+            }
+        }
+
+        return res.status(200).json({ password: result });
+    } catch (error) {
+        console.error("Lỗi xử lý:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 }
