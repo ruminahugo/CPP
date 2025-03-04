@@ -48,7 +48,7 @@ export default async function handler(req, res) {
             if (item.type === "default") {
                 result += item.value;
             }else if( item.type === "datenow"){
-                result += await execute(5, 0);
+                result += await execute(5, 1);
             } else {
                 let type = item.type;
                 let length = parseInt(item?.value, 10) || 10;
