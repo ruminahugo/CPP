@@ -8,9 +8,10 @@ const RuleBuilder = () => {
   const ruleTypes = {
     default: "Chuỗi mặc định",
     number: "Số",
-    uppercase: "Chữ hoa",
-    lowercase: "Chữ thường",
-    special: "Ký tự đặc biệt",
+    character: "Chữ cái",
+    character_number: "Chữ và số",
+    //special: "Ký tự đặc biệt",
+    datetimenow: "Ngày hiện tại",
   };
 
   const addRule = () => {
@@ -38,9 +39,10 @@ const RuleBuilder = () => {
     const rule = rules.find(r => r.id === id);
     if (field === "value" && rule) {
       if (rule.type === "number" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "uppercase" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "lowercase" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
-      if (rule.type === "special" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "character" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "character_number" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      //if (rule.type === "special" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
+      if (rule.type === "datetimenow" && !/^\d+$/.test(value)) error = "Vui lòng nhập số ký tự";
       if (rule.type === "default" && !value.trim()) error = "Không được để trống";
     }
     setErrors(prevErrors => ({ ...prevErrors, [id]: error }));
@@ -82,7 +84,7 @@ const RuleBuilder = () => {
             <input
               type="text"
               className={`border px-3 py-1 rounded ${errors[rule.id] ? "border-red-500" : ""}`}
-              placeholder="Giá trị"
+              placeholder=""
               value={rule.value}
               onChange={e => updateRule(rule.id, "value", e.target.value)}
               disabled={!rule.type}

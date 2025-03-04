@@ -4,24 +4,29 @@ import fs from "fs";
 const crypto = require("crypto");
 require("dotenv").config();
 
+const SECRET_KEY = process.env.AES_SECRET_KEY; // 32 bytes
+const IV = process.env.AES_IV; // 16 bytes
+
+function encrypt(text) {
+    const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
+    let encrypted = cipher.update(text, "utf8", "hex");
+    encrypted += cipher.final("hex");
+    return encrypted;
+}
+
 export default function handler(req, res) {
-    if (req.method !== "GET") {
+    if (req.method !== "POST") {
         return res.status(405).json({ error: "Method Not Allowed" });
     }
 
-    const length = parseInt(req.query.length, 10) || 10;
+    const rules = req.body;
+    return res.json(rules);
+    rules.forEach((item, index)=>{
+        const length = parseInt(req.query.length, 10) || 10;
+    });
+    
     if (isNaN(length) || length < 5) {
         return res.status(400).json({ error: "Missing or invalid parameters" });
-    }
-
-    const SECRET_KEY = process.env.AES_SECRET_KEY; // 32 bytes
-    const IV = process.env.AES_IV; // 16 bytes
-
-    function encrypt(text) {
-        const cipher = crypto.createCipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
-        let encrypted = cipher.update(text, "utf8", "hex");
-        encrypted += cipher.final("hex");
-        return encrypted;
     }
 
     const cppFile = path.join(process.cwd(), "randompass_vsc");
