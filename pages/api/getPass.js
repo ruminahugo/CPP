@@ -53,7 +53,7 @@ export default async function handler(req, res) {
 
                 let passPart = "";
                 if (type === "number") passPart = await execute(2, length);
-                if (type === "character") passPart = await execute(3, length);
+                if (type === "letters") passPart = await execute(3, length);
                 if (type === "alphanumeric") passPart = await execute(4, length);
                 if (type === "datetimenow") passPart = await execute(5, length);
 
@@ -61,7 +61,7 @@ export default async function handler(req, res) {
             }
         }
 
-        return res.status(200).json({ password: result });
+        return res.status(200).json({ password: encrypt(result) });
     } catch (error) {
         console.error("Lỗi xử lý:", error);
         return res.status(500).json({ error: "Internal Server Error" });

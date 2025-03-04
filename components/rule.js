@@ -1,9 +1,28 @@
 "use client";
 import { useState } from "react";
+const crypto = require("crypto");
+require("dotenv").config();
+
+const SECRET_KEY = process.env.AES_SECRET_KEY || "1234567890abcdef1234567890abcdef"; // 32 bytes
+const IV = process.env.AES_IV || "abcdef1234567890"; // 16 bytes
+function decrypt(encryptedText) {
+  const decipher = crypto.createDecipheriv("aes-256-cbc", Buffer.from(SECRET_KEY, "utf-8"), Buffer.from(IV, "utf-8"));
+  let decrypted = decipher.update(encryptedText, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+  return decrypted;
+}
 
 const RuleBuilder = () => {
   const [rules, setRules] = useState([{ id: Date.now(), type: "", value: "" }]);
   const [errors, setErrors] = useState({});
+  const [pwd, setPwd] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(pwd);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Ẩn thông báo sau 2 giây
+  };
 
   const ruleTypes = {
     default: "Chuỗi mặc định",
@@ -60,7 +79,8 @@ const RuleBuilder = () => {
         body: JSON.stringify({ rules }),
       });
       const data = await response.json();
-      console.log("Kết quả:", data);
+      const decryptedpwd = decrypt(data.password);
+      setPwd(decryptedpwd);
     }
   };
 
@@ -88,6 +108,7 @@ const RuleBuilder = () => {
               value={rule.value}
               onChange={e => updateRule(rule.id, "value", e.target.value)}
               disabled={!rule.type}
+              hidden={rule.type === "datetimenow"}
             />
             <button
               className="px-2 py-1 bg-red-500 text-white rounded"
@@ -113,6 +134,13 @@ const RuleBuilder = () => {
       >
         Gửi
       </button>
+      {pwd && (
+        <div>
+          <p>Mật khẩu: {pwd}<button onClick={handleCopy}>Copy</button>
+          </p>
+          {copied && <p>(Đã copy vào clipboard)</p>}
+        </div>
+      )}
     </div>
   );
 };
