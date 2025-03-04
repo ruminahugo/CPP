@@ -132,7 +132,7 @@ const RuleBuilder = () => {
         onClick={handleSubmit}
         disabled={!isFormValid()}
       >
-        Gửi
+        Tạo mật khẩu
       </button>
       {pwd && (
         <div>
