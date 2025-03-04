@@ -49,7 +49,7 @@ export default async function handler(req, res) {
                 result += item.value;
             } else {
                 let type = item.type;
-                let length = parseInt(item.value, 10) || 10;
+                let length = parseInt(item?.value, 10) || 10;
 
                 let passPart = "";
                 if (type === "number") passPart = await execute(2, length);
