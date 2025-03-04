@@ -41,8 +41,15 @@ const RuleBuilder = () => {
     setRules(prevRules =>
       prevRules.map(rule => (rule.id === id ? { ...rule, [field]: value } : rule))
     );
+  
+    // Nếu thay đổi `type`, cần kiểm tra lại `value`
+    const rule = rules.find(r => r.id === id);
     validateRule(id, field, value);
+    if (field === "type" && rule) {
+      validateRule(id, "value", rule.value);
+    }
   };
+  
 
   const removeRule = id => {
     setRules(prevRules => prevRules.filter(rule => rule.id !== id));
