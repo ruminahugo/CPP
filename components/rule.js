@@ -38,13 +38,11 @@ const RuleBuilder = () => {
   };
 
   const updateRule = (id, field, value) => {
-    setRules(prevRules => {
-      const updatedRules = prevRules.map(rule =>
+    setRules(prevRules =>
+      prevRules.map(rule =>
         rule.id === id ? { ...rule, [field]: value } : rule
-      );
-  
-      return updatedRules;
-    });
+      )
+    );
   };
   
   useEffect(() => {
