@@ -92,7 +92,7 @@ const RuleBuilder = () => {
   };
 
   return (
-    <div className="w-fct p-4 border rounded-lg bg-white shadow">
+    <div className="w-fct m-at p-4 border rounded-lg bg-white shadow">
       {rules.map(rule => (
         <div key={rule.id} className="flex flex-col gap-1 mb-2">
           <div className="flex items-center gap-2">

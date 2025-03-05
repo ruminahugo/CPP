@@ -2,6 +2,9 @@
   display: block;
   max-width: fit-content;
 }
+.m-at{
+  margin: auto;
+}
 .p-4 {
     padding: 1rem;
   }
