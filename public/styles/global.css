@@ -104,6 +104,10 @@
   .mt-2 {
     margin-top: 0.5rem;
   }
+
+  .ml-2{
+    margin-left: 0.5rem;
+  }
   
   .px-4 {
     padding-left: 1rem;
