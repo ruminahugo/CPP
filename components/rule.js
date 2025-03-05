@@ -124,23 +124,25 @@ const RuleBuilder = () => {
               Xóa
             </button>
           </div>
-          {errors[rule.id] && <div className="flex"><span></span><span className="text-red-500 text-sm">{errors[rule.id]}</span></div>}
+          {errors[rule.id] && <div className="flex items-center gap-2"><span className="w-9-3-rem"></span><span className="text-red-500 text-sm">{errors[rule.id]}</span></div>}
         </div>
       ))}
-      <button
-        className="mt-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-        onClick={addRule}
-        disabled={!isFormValid()}
-      >
-        + Thêm Rule
-      </button>
-      <button
-        className="mt-4 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
-        onClick={handleSubmit}
-        disabled={!isFormValid()}
-      >
-        Tạo mật khẩu
-      </button>
+      <div className="flex items-center gap-2">
+        <button
+          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          onClick={addRule}
+          disabled={!isFormValid()}
+        >
+          + Thêm Rule
+        </button>
+        <button
+          className="mt-4 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
+          onClick={handleSubmit}
+          disabled={!isFormValid()}
+        >
+          Tạo mật khẩu
+        </button>
+      </div>
       {pwd && (
         <div>
           <p>Mật khẩu: {pwd}<button onClick={handleCopy}>Copy</button>
