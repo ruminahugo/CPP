@@ -92,7 +92,7 @@ const RuleBuilder = () => {
   };
 
   return (
-    <div className="p-4 border rounded-lg bg-white shadow">
+    <div className="w-fct p-4 border rounded-lg bg-white shadow">
       {rules.map(rule => (
         <div key={rule.id} className="flex flex-col gap-1 mb-2">
           <div className="flex items-center gap-2">
@@ -124,7 +124,7 @@ const RuleBuilder = () => {
               Xóa
             </button>
           </div>
-          {errors[rule.id] && <span className="text-red-500 text-sm">{errors[rule.id]}</span>}
+          {errors[rule.id] && <div className="flex"><span></span><span className="text-red-500 text-sm">{errors[rule.id]}</span></div>}
         </div>
       ))}
       <button
