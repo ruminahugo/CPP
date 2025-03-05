@@ -127,7 +127,7 @@ const RuleBuilder = () => {
           {errors[rule.id] && <div className="flex items-center gap-2"><span className="w-9-3-rem"></span><span className="text-red-500 text-sm">{errors[rule.id]}</span></div>}
         </div>
       ))}
-      <div className="flex items-center gap-2">
+      <div>
         <button
           className="mt-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
           onClick={addRule}
@@ -136,7 +136,7 @@ const RuleBuilder = () => {
           + Thêm Rule
         </button>
         <button
-          className="mt-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
+          className="mt-2 ml-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
           onClick={handleSubmit}
           disabled={!isFormValid()}
         >
