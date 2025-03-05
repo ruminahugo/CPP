@@ -136,7 +136,7 @@ const RuleBuilder = () => {
           + Thêm Rule
         </button>
         <button
-          className="mt-4 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
+          className="mt-2 px-4 py-2 bg-green-500 text-white rounded disabled:opacity-50"
           onClick={handleSubmit}
           disabled={!isFormValid()}
         >
