@@ -18,6 +18,18 @@ const RuleBuilder = () => {
   const [pwd, setPwd] = useState(null);
   const [copied, setCopied] = useState(false);
 
+
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "/script.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+        document.body.removeChild(script); // Xóa script khi component unmount
+    };
+  }, []);
+
   const handleCopy = () => {
     navigator.clipboard.writeText(pwd);
     setCopied(true);
@@ -92,7 +104,7 @@ const RuleBuilder = () => {
   };
 
   return (
-    <div className="w-fct m-at p-4 border rounded-lg bg-white shadow">
+    <div className="w-fct m-at p-4 border rounded-lg bg-white shadow" id="container">
       {rules.map(rule => (
         <div key={rule.id} className="flex flex-col gap-1 mb-2">
           <div className="flex items-center gap-2">
