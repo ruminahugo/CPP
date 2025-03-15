@@ -21,7 +21,7 @@ const RuleBuilder = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "/script.js";
+    script.src = "/script/saveform.js";
     script.async = true;
     document.body.appendChild(script);
 
