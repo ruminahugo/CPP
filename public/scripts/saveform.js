@@ -1,24 +1,28 @@
  // Lưu HTML vào cookie (bao gồm input)
- function saveToCookie() {
-    let container = document.getElementById("container");
-    let inputs = container.querySelectorAll("input");
-
-    // Lưu giá trị input vào thuộc tính data-value
-    inputs.forEach(input => input.setAttribute("data-value", input.value));
-
-    // Lưu toàn bộ nội dung vào cookie
-    document.cookie = "savedContent=" + encodeURIComponent(container.innerHTML) + ";path=/;max-age=86400"; 
-}
+ const saveToCookie = () => {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // Lưu trong 7 ngày
+    document.cookie = `rules=${encodeURIComponent(JSON.stringify(rules))}; expires=${expires.toUTCString()}; path=/`;
+  };
+  
 
 // Đọc cookie
-function getCookie(name) {
-    let cookies = document.cookie.split("; ");
-    for (let cookie of cookies) {
-        let [key, value] = cookie.split("=");
-        if (key === name) return decodeURIComponent(value);
+const loadFromCookie = () => {
+    const cookies = document.cookie.split("; ");
+    const rulesCookie = cookies.find(row => row.startsWith("rules="));
+    if (rulesCookie) {
+      const rulesData = decodeURIComponent(rulesCookie.split("=")[1]);
+      try {
+        const parsedRules = JSON.parse(rulesData);
+        if (Array.isArray(parsedRules)) {
+          setRules(parsedRules);
+        }
+      } catch (error) {
+        console.error("Lỗi khi đọc dữ liệu từ cookie:", error);
+      }
     }
-    return "";
-}
+  };
+  
 
 // Khôi phục nội dung khi tải trang
 window.onload = function () {

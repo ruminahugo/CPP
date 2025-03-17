@@ -25,6 +25,7 @@ const RuleBuilder = () => {
     script.async = true;
     document.body.appendChild(script);
 
+    loadFromCookie();
     return () => {
         document.body.removeChild(script); // Xóa script khi component unmount
     };
@@ -157,7 +158,7 @@ const RuleBuilder = () => {
         </button>
         <button
           className="mt-2 ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          onClick="saveToCookie()">Lưu tùy chỉnh
+          onClick={saveToCookie()}>Lưu tùy chỉnh
         </button>
       </div>
       {pwd && (
