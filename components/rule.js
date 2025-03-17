@@ -18,13 +18,13 @@ const RuleBuilder = () => {
   const [pwd, setPwd] = useState(null);
   const [copied, setCopied] = useState(false);
 
+const saveToCookie = () => {
+  const expires = new Date();
+  expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // Lưu trong 7 ngày
+  document.cookie = `rules=${encodeURIComponent(JSON.stringify(rules))}; expires=${expires.toUTCString()}; path=/`;
+};
 
   useEffect(() => {
-    const saveToCookie = () => {
-      const expires = new Date();
-      expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // Lưu trong 7 ngày
-      document.cookie = `rules=${encodeURIComponent(JSON.stringify(rules))}; expires=${expires.toUTCString()}; path=/`;
-    };
     const loadFromCookie = () => {
       const cookies = document.cookie.split("; ");
       const rulesCookie = cookies.find(row => row.startsWith("rules="));
