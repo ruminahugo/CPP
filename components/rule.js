@@ -20,15 +20,27 @@ const RuleBuilder = () => {
 
 
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "/scripts/saveform.js";
-    script.async = true;
-    document.body.appendChild(script);
-
-    loadFromCookie();
-    return () => {
-        document.body.removeChild(script); // Xóa script khi component unmount
+    const saveToCookie = () => {
+      const expires = new Date();
+      expires.setTime(expires.getTime() + 7 * 24 * 60 * 60 * 1000); // Lưu trong 7 ngày
+      document.cookie = `rules=${encodeURIComponent(JSON.stringify(rules))}; expires=${expires.toUTCString()}; path=/`;
     };
+    const loadFromCookie = () => {
+      const cookies = document.cookie.split("; ");
+      const rulesCookie = cookies.find(row => row.startsWith("rules="));
+      if (rulesCookie) {
+        const rulesData = decodeURIComponent(rulesCookie.split("=")[1]);
+        try {
+          const parsedRules = JSON.parse(rulesData);
+          if (Array.isArray(parsedRules)) {
+            setRules(parsedRules);
+          }
+        } catch (error) {
+          console.error("Lỗi khi đọc dữ liệu từ cookie:", error);
+        }
+      }
+    };
+    loadFromCookie();        
   }, []);
 
   const handleCopy = () => {
@@ -158,7 +170,7 @@ const RuleBuilder = () => {
         </button>
         <button
           className="mt-2 ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
-          onClick={saveToCookie()}>Lưu tùy chỉnh
+          onClick={saveToCookie}>Lưu tùy chỉnh
         </button>
       </div>
       {pwd && (
