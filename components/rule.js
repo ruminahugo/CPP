@@ -21,7 +21,7 @@ const RuleBuilder = () => {
 
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "/script/saveform.js";
+    script.src = "/scripts/saveform.js";
     script.async = true;
     document.body.appendChild(script);
 
@@ -154,6 +154,10 @@ const RuleBuilder = () => {
           disabled={!isFormValid()}
         >
           Tạo mật khẩu
+        </button>
+        <button
+          className="mt-2 ml-2 px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          onClick="saveToCookie()">Lưu tùy chỉnh
         </button>
       </div>
       {pwd && (
