@@ -20,7 +20,7 @@ const RuleBuilder = () => {
 
 const saveToCookie = () => {
   const expires = new Date();
-  expires.setTime(expires.getTime() + 365 * 24 * 60 * 60 * 1000); // Lưu trong 365 ngày
+  expires.setTime(expires.getTime() + 100 * 24 * 60 * 60 * 1000); // Lưu trong 365 ngày
   document.cookie = `rules=${encodeURIComponent(JSON.stringify(rules))}; expires=${expires.toUTCString()}; path=/`;
 };
 
